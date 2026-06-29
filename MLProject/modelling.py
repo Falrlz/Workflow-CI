@@ -75,9 +75,10 @@ def train_and_track(learning_rate, max_depth, max_iter):
     outputs_dir = os.path.join(script_dir, "outputs")
     os.makedirs(outputs_dir, exist_ok=True)
     
-    # MLflow experiment fallback
-    if not mlflow.get_experiment_by_name("Telco_Customer_Churn_Retraining"):
-        mlflow.set_experiment("Telco_Customer_Churn_Retraining")
+    # Only set experiment if we are not running inside an MLflow project run
+    if "MLFLOW_RUN_ID" not in os.environ:
+        if not mlflow.get_experiment_by_name("Telco_Customer_Churn_Retraining"):
+            mlflow.set_experiment("Telco_Customer_Churn_Retraining")
         
     logger.info("Starting MLflow run...")
     with mlflow.start_run():

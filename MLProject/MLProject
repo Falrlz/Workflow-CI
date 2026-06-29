@@ -1,0 +1,9 @@
+name: Telco_Customer_Churn_Retraining
+conda_env: conda.yaml
+entry_points:
+  main:
+    parameters:
+      learning_rate: {type: float, default: 0.01}
+      max_depth: {type: int, default: 3}
+      max_iter: {type: int, default: 1000}
+    command: "python modelling.py --learning_rate {learning_rate} --max_depth {max_depth} --max_iter {max_iter}"

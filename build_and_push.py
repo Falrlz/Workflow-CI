@@ -48,8 +48,7 @@ def main():
         "mlflow", "models", "build-docker",
         "-m", f"runs:/{latest_run_id}/model",
         "-n", image_name,
-        "--env-manager", "local",
-        "--enable-mlserver"
+        "--env-manager", "local"
     ]
     
     # Run the build process

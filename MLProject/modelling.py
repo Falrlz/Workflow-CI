@@ -79,12 +79,13 @@ def train_and_track(learning_rate, max_depth, max_iter):
     if "MLFLOW_RUN_ID" not in os.environ:
         if not mlflow.get_experiment_by_name("Telco_Customer_Churn_Retraining"):
             mlflow.set_experiment("Telco_Customer_Churn_Retraining")
+            
+    # Enable MLflow Autolog for Scikit-Learn
+    mlflow.sklearn.autolog()
         
     logger.info("Starting MLflow run...")
     with mlflow.start_run():
-        # Log model parameters
-        mlflow.log_params(params)
-        logger.info(f"Logged parameters to MLflow: {params}")
+        logger.info("HistGradientBoosting parameters configured.")
         
         # Train classifier
         logger.info("Training HistGradientBoostingClassifier...")
@@ -149,9 +150,8 @@ def train_and_track(learning_rate, max_depth, max_iter):
         mlflow.log_artifact(feat_plot_path)
         logger.info("Logged Feature Importance plot.")
         
-        # Log model
-        mlflow.sklearn.log_model(model, "model")
-        logger.info("Logged model object to MLflow.")
+        # Note: Model object and parameters are logged automatically by mlflow.sklearn.autolog()
+        logger.info("Model object and parameters logged automatically by autolog.")
         
     logger.info("==========================================")
     logger.info("Retraining Completed Successfully")
